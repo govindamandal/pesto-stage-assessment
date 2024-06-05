@@ -3,7 +3,6 @@ import { User } from '../interface/all.interface';
 import { Genres } from '../interface/genre';
 
 const userSchema: Schema = new Schema({
-  id: { type: String, required: true },
   username: { type: String, required: true },
   preferences: {
     favoriteGenres: [{type: String, enum: Genres}],

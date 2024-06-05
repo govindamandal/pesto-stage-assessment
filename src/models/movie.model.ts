@@ -3,7 +3,6 @@ import { Genres } from '../interface/genre';
 import { Movie } from '../interface/all.interface';
 
 const movieSchema: Schema = new Schema({
-    id: { type: String, required: true },
     title: { type: String, required: true },
     description: { type: String, required: true },
     genres: [{ type: String, enum: Genres, required: true }],

@@ -70,7 +70,9 @@ export const removeFromList = async (req: Request, res: Response) => {
 
 // List My Items
 export const listMyItems = async (req: Request, res: Response) => {
-  const userId = req.body.userId;
+  console.log(req.body);
+  
+  const { userId } = req.body;
   const page = parseInt(req.query.page as string) || 1;
   const limit = parseInt(req.query.limit as string) || 10;
 
