@@ -27,13 +27,13 @@ export const addToList = async (req: Request, res: Response) => {
       return res.status(400).send('Item already in list');
     }
 
-    if (contentType === 'Movie') {
+    if (contentType === 'movie') {
       const movie = await MovieModel.findById(contentId);
       if (!movie) {
         return res.status(404).send('Movie not found');
       }
 
-    } else if (contentType === 'TVShow') {
+    } else if (contentType === 'tvshow') {
 
       const tvShow = await TvshowModel.findById(contentId);
       if (!tvShow) {
@@ -46,7 +46,7 @@ export const addToList = async (req: Request, res: Response) => {
     user.myList.push({ contentId, contentType });
     await user.save();
 
-    res.status(200).send('Item added to list');
+    res.status(201).send('Item added to list');
   } catch (err: any) {
     res.status(500).send(err.message);
   }

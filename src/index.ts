@@ -9,7 +9,7 @@ import connectDatabse from "./mongo.db";
 dotenv.config();
 connectDatabse();
 
-const app = express();
+export const app = express();
 const port = process.env.PORT || 3000;
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
