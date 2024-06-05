@@ -3,8 +3,8 @@ import { addToList, removeFromList, listMyItems } from '../controllers/list.cont
 
 const listRouter = Router();
 
-listRouter.post('/mylist', addToList);
-listRouter.delete('/mylist/:contentId', removeFromList);
-listRouter.get('/mylist', listMyItems);
+listRouter.post('/', addToList);
+listRouter.delete('/:contentId', removeFromList);
+listRouter.get('/', listMyItems);
 
 export default listRouter;

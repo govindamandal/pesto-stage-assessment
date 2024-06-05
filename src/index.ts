@@ -2,15 +2,16 @@ import express from "express";
 import bodyParser from "body-parser";
 import cors from 'cors';
 import * as dotenv from 'dotenv';
-import listRouter from "./routes/list.route";
+import router from "./routes";
+
+import connectDatabse from "./mongo.db";
 
 dotenv.config();
+connectDatabse();
 
 const app = express();
 const port = process.env.PORT || 3000;
-// parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }));
-// parse application/json
 app.use(bodyParser.json());
 
 const corsOptions = {
@@ -24,7 +25,7 @@ app.get("/", (req, res) => {
   res.send("Hello from Express + TypeScript!");
 });
 
-app.use(listRouter);
+app.use(router);
 
 app.listen(port, () => {
   console.log(`Server is listening on port ${port}`);
