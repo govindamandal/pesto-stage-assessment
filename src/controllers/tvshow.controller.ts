@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import TvshowModel from "../models/tvshow.model";
 
-//add movie
+//add tvshow
 export const addTVShow = async (req: Request, res: Response) => {
     const data = req.body; 
     try {
@@ -15,8 +15,8 @@ export const addTVShow = async (req: Request, res: Response) => {
 export const updateTVShow = async (req: Request, res: Response) => {
     const { tvshowId } = req.params;
     const data = req.body;
-    const movie = await TvshowModel.findById(tvshowId);
-    if (!movie) {
+    const tvshow = await TvshowModel.findById(tvshowId);
+    if (!tvshow) {
         res.status(401).send({message: `Error: TVShow not found!`})
     } else {
         try {
@@ -30,8 +30,8 @@ export const updateTVShow = async (req: Request, res: Response) => {
 
 export const deleteTVShow = async (req: Request, res: Response) => {
     const { tvshowId } = req.params;
-    const movie = await TvshowModel.findById(tvshowId);
-    if (!movie) {
+    const tvshow = await TvshowModel.findById(tvshowId);
+    if (!tvshow) {
         res.status(401).send({message: `Error: TVShow not found!`})
     } else {
         try {

@@ -36,7 +36,7 @@ export const deleteMovie = async (req: Request, res: Response) => {
     } else {
         try {
             await MovieModel.findByIdAndDelete(movieId);
-            res.status(201).send({message: 'Movie was deleted successfully'});
+            res.status(200).send({message: 'Movie was deleted successfully'});
         } catch (error: any) {
             res.status(401).send({message: `Error: ${error.message}`})
         }
