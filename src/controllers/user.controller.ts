@@ -1,26 +1,97 @@
 import { Request, Response } from 'express';
-import { addToMyList, removeFromMyList, getMyList } from '../services/user.service';
+import UserModel from '../models/user.model';
+import MovieModel from '../models/movie.model';
+import TvshowModel from '../models/tvshow.model';
 
-export const addToMyListController = async (req: Request, res: Response) => {
-  const { userId, contentId } = req.body;
+// Add to My List
+export const addToList = async (req: Request, res: Response) => {
+  const userId = req.body.userId;
+  const { contentId, contentType } = req.body;
+
   try {
-    const user = await addToMyList(userId, contentId);
-    res.json(user);
-  } catch (error: Error) {
-    res.status(400).json({ message: error.message });
+    const user = await UserModel.findById(userId);
+    if (!user) {
+      return res.status(404).send('User not found');
+    }
+
+    const existsInList = user.myList.some(item => item.contentId === contentId);
+    if (existsInList) {
+      return res.status(400).send('Item already in list');
+    }
+
+    if (contentType === 'Movie') {
+      const movie = await MovieModel.findById(contentId);
+      if (!movie) {
+        return res.status(404).send('Movie not found');
+      }
+    } else if (contentType === 'TVShow') {
+      const tvShow = await TvshowModel.findById(contentId);
+      if (!tvShow) {
+        return res.status(404).send('TV Show not found');
+      }
+    } else {
+      return res.status(400).send('Invalid content type');
+    }
+
+    user.myList.push({ contentId, contentType });
+    await user.save();
+
+    res.status(200).send('Item added to list');
+  } catch (err: any) {
+    res.status(500).send(err.message);
   }
 };
 
-export const removeFromMyListController = async (req: Request, res: Response) => {
-  const { userId, contentId } = req.params;
+// Remove from My List
+export const removeFromList = async (req: Request, res: Response) => {
+  const userId = req.body.userId;
+  const { contentId } = req.params;
+
   try {
-    const user = await removeFromMyList(userId, contentId);
-    res.json(user);
-  } catch (error: Error) {
-    res.status(400).json({ message: error.message });
+    const user = await UserModel.findById(userId);
+    if (!user) {
+      return res.status(404).send('User not found');
+    }
+
+    const initialLength = user.myList.length;
+    user.myList = user.myList.filter(item => item.contentId !== contentId);
+
+    if (user.myList.length === initialLength) {
+      return res.status(404).send('Item not found in list');
+    }
+
+    await user.save();
+
+    res.status(200).send('Item removed from list');
+  } catch (err: any) {
+    res.status(500).send(err.message);
   }
 };
 
-export const getMyListController = async (req: Request, res: Response) => {
-  const { userId } = req.params;
-  const page
+// List My Items
+export const listMyItems = async (req: Request, res: Response) => {
+  const userId = req.body.userId;
+  const page = parseInt(req.query.page as string) || 1;
+  const limit = parseInt(req.query.limit as string) || 10;
+
+  try {
+    const user = await UserModel.findById(userId);
+    if (!user) {
+      return res.status(404).send('User not found');
+    }
+
+    const startIndex = (page - 1) * limit;
+    const endIndex = page * limit;
+
+    const myList = user.myList.slice(startIndex, endIndex);
+
+    res.status(200).json({
+      page,
+      limit,
+      totalItems: user.myList.length,
+      items: myList
+    });
+  } catch (err: any) {
+    res.status(500).send(err.message);
+  }
+};
