@@ -1,4 +1,4 @@
-import { Schema, model, Types } from 'mongoose';
+import { Schema, model } from 'mongoose';
 import { User } from '../interface/all.interface';
 import { Genres } from '../interface/genre';
 
@@ -17,15 +17,15 @@ const userSchema: Schema = new Schema({
   ],
   myList: [
     {
-      item: {
+      contentId: {
         type: Schema.Types.ObjectId,
-        refPath: 'myList.kind',
+        refPath: 'myList.contentType',
         required: true
       },
-      kind: {
+      contentType: {
         type: String,
         required: true,
-        enum: ['Movie', 'TVShow']
+        enum: ['movie', 'tvshow']
       }
     }
   ],

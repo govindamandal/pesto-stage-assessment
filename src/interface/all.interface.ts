@@ -1,4 +1,4 @@
-import { Document } from "mongoose";
+import { Document, Types } from "mongoose";
 import { Genre } from "./genre";
 
 interface Episode {
@@ -23,7 +23,7 @@ export interface User extends Document {
         dislikedGenres: Genre[];
     };
     watchHistory: WatchHistory[];
-    myList: { contentId: string; contentType: 'Movie' | 'TVShow' }[];
+    myList: { contentId: Types.ObjectId; contentType: 'movie' | 'tvshow' }[];
 }
 
 export interface Movie extends Document{
