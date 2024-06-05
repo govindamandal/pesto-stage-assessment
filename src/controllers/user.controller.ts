@@ -3,9 +3,10 @@ import UserModel from "../models/user.model";
 
 export const addUser = async (req: Request, res: Response) => {
     const data = req.body;
+        
     const user = await UserModel.find({username: data.username });
-
-    if (user) {
+        
+    if (user.length) {
         res.status(401).send({message: `Username ${data.username} is already taken, please choose different!`});
     } else {
         try {
