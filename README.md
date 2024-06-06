@@ -108,7 +108,7 @@ Request Body:
 {
   "userId": "6661299ce36a4ea3bd7dfb2c",
   "contentId": "6661299ce36a4ea3bd7dfb2f",
-  "contentType": "Movie" | "TVShow"
+  "contentType": "movie" | "tvshow"
 }
 ```
 Response:
