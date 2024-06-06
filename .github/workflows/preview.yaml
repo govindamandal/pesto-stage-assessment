@@ -6,15 +6,23 @@ env:
 
 on:
 	push:
-		branches:
-			-main
+		branches-ignore:
+			["main"]
 
 jobs:
-	Deploye-Preview:
+	build:
 		runs-on: ubuntu-latest
+		strategy:
+      		matrix:
+        		node-version: [18.x, 20.x]
 		stesp:
-			- uses: action/checkouts@v3
-
+			- uses: action/checkouts@v2
+			- name: Use Node.js ${{ matrix.node-version }}
+			uses: actions/setup-node@v2
+			with:
+				node-version: ${{ matrix.node-version }}
+			- run: npm install
+			- run: npm test
 			- name: Install Vercel CLI
 			- run: npm install --global vercel
 
