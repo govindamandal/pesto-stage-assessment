@@ -26,7 +26,7 @@ export const updateUser = async (req: Request, res: Response) => {
     const user = await UserModel.findById(userId);
 
     if (!user) {
-        return res.status(404).send({ message: 'User noit found!' });
+        return res.status(404).send({ message: 'User not found!' });
     }
 
     const user1 = await UserModel.findOne({ username, _id: { $ne: userId } });
