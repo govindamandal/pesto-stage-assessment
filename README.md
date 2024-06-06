@@ -93,7 +93,8 @@ Request Body:
             "actors": ["Bryan Cranston", "Aaron Paul"]
         }
     ]
-}```
+}
+```
 
 Response:
 201 OK: { message: 'TVShow was added successfully', data: result }
